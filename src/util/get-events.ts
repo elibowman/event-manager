@@ -1,8 +1,9 @@
-import { EventsNotAvailableError } from '../error/events-not-available-error';
+import { EventtsNotAvailableError } from '../error/eventts-not-available-error';
+import { InvalidResponseError } from '../error/invalid-response-error';
 import { logger } from './console-logger';
 import ensureError from './ensure-error';
 
-export type Eventt = {
+export type GetEventtType = {
     id: number,
     color: string | null,
     isActive: true | false | null,
@@ -18,30 +19,31 @@ export type Eventt = {
     createdOn: string | null
 }
 
-export default async function getEventts(): Promise<Eventt[] | null> {
-    // let events: Event[];
+export default async function getEventts(): Promise<GetEventtType[] | null> {
 
     try {
-        logger.log(`getEvents(): Starting fetch to ${import.meta.env.VITE_EVENTS}`);
+        logger.log(`${Date().toLocaleString()} getEvents(): STARTING fetch to ${import.meta.env.VITE_EVENTS}`);
         const response = await fetch("" + import.meta.env.VITE_EVENTS);
-        logger.log(`getEvents(): Ending fetch to ${import.meta.env.VITE_EVENTS}`);
+        logger.log(`${Date().toLocaleString()} getEvents(): ENDING fetch to ${import.meta.env.VITE_EVENTS}`);
 
         if (!response?.ok) {
-            throw new EventsNotAvailableError();
+            throw new EventtsNotAvailableError();
         }
-        else {
-            const responseJson = await response.json()
-            logger.log(responseJson);
-            if (responseJson as Eventt[])
-                return responseJson;
+        const responseJson = await response.json()
+        logger.debug(`getEventts(): responseJson:`, responseJson);
+
+        if(
+            !(Array.isArray(responseJson) && (responseJson as []).map((_eventt, i) => ('id' in responseJson[i]) && typeof responseJson[i].id === 'number') && responseJson as GetEventtType[])
+        ) {
+            throw new InvalidResponseError();
         }
-        return null;
+
+        return responseJson;        
     }
     catch (err: any) {
         const error = ensureError(err);
 
         logger.error(error.message, error);
-        throw new Error('Failed', err)
-        return null;
+        throw new Error('Failed to get events', err)
     }
 }

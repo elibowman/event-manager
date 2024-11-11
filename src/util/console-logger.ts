@@ -5,16 +5,20 @@ export interface LogFn {
 }
 
 export interface Logger {
+    trace: LogFn;
+    debug: LogFn;
     log: LogFn;
     warn: LogFn;
     error: LogFn;
 }
 
-export type LogLevel = 'log' | 'warn' | 'error';
+export type LogLevel = 'trace' | 'debug' | 'log' | 'warn' | 'error';
 
 const NO_OP: LogFn = (message?: any, ...optionalParams: any[]) => {};
 
 export class ConsoleLogger implements Logger {
+    readonly trace: LogFn;
+    readonly debug: LogFn;
     readonly log: LogFn;
     readonly warn: LogFn;
     readonly error: LogFn;
@@ -27,6 +31,8 @@ export class ConsoleLogger implements Logger {
         if (level === 'error') {
             this.warn = NO_OP;
             this.log = NO_OP;
+            this.debug = NO_OP;
+            this.trace = NO_OP;
 
             return;
         }
@@ -35,11 +41,30 @@ export class ConsoleLogger implements Logger {
 
         if (level === 'warn') {
             this.log = NO_OP;
+            this.debug = NO_OP;
+            this.trace = NO_OP;
 
             return;
         }
 
         this.log = console.log.bind(console);
+
+        if (level === 'log') {
+            this.debug = NO_OP;
+            this.trace = NO_OP;
+
+            return;
+        }
+
+        this.debug = console.debug.bind(console);
+
+        if (level === 'debug') {
+            this.trace = NO_OP;
+
+            return;
+        }
+
+        this.trace = console.trace.bind(console);
     }
 }
 
