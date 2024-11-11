@@ -2,7 +2,7 @@ import { EventtCreationError } from "../error/event-creation-error";
 import { logger } from "./console-logger";
 import ensureError from "./ensure-error";
 
-export type editEventtType = {
+export type EditEventtType = {
     color?: string | null ,
     isActive?: true | false | null,
     name?: string | null ,
@@ -17,7 +17,7 @@ export type editEventtType = {
     createdOn?: string | null 
 }
 
-const editEventt = async (id: number, eventt: editEventtType): Promise<any> => {
+const editEventt = async (id: number, eventt: EditEventtType): Promise<any> => {
     try {
         logger.log(`${Date().toLocaleString()} editEventt(): STARTING: edit event PUT`);
         const response = await fetch(`${import.meta.env.VITE_EVENTS}/${id}`, {

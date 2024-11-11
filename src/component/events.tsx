@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import  { CreateEventtType } from "../util/create-event";
 import prepareCreateEventInput from "../util/prepare-create-event-input";
 import prepareEditEventInput from "../util/prepare-edit-event-input";
+import prepareViewEventInput from "../util/prepare-view-event-input";
 
 const months: string[] = [
     'Jan',
@@ -21,7 +22,6 @@ const months: string[] = [
     'Nov',
     'Dec'
 ]
-
 const actions = {
     CREATE_EVENTT: "CREATE_EVENTT" ,
     EDIT_EVENTT: "EDIT_EVENTT" ,
@@ -31,6 +31,7 @@ const actions = {
 const Eventts = () => {
     const events: GetEventtType[] | null = useLoaderData() as GetEventtType[] | null;
     const newEventImparativeModalRef = useRef<ModalActions>(null);
+    const viewEventImparativeModalRef = useRef<ModalActions>(null);
     // const createEventSubmit = useRef<HTMLButtonElement>(null);
     // const cancelCreateEventSubmit = useRef<HTMLButtonElement>(null);
     const [ rowToEdit, setRowToEdit ] = useState<number | null>(null);
@@ -76,8 +77,8 @@ const Eventts = () => {
                 logger.debug("editEventtListener(): e:", e);
 
                 const row: HTMLTableRowElement = (((currentTarget as HTMLButtonElement).parentNode as HTMLDivElement).parentElement as HTMLTableCellElement).parentElement as HTMLTableRowElement;
-                logger.debug('editEventtListener: row:')
-                console.dir(row);
+                logger.debug('editEventtListener: row:', row)
+
                 const id: number = parseInt(row.getAttribute('data-key') as string);
                 logger.debug('editEventtListener: id:', row.getAttribute('data-key'));
                 logger.debug('editEventtListener: id:', id);
@@ -102,10 +103,10 @@ const Eventts = () => {
     const submitEditEventtListener = () => {        
         return(
             (e: React.MouseEvent<HTMLButtonElement>) => {
-                logger.debug("editEventListener(): clicked", e);
+                logger.debug("submitEditEventListener(): e", e);
 
                 const row: HTMLTableRowElement = (((e.target as HTMLButtonElement).parentNode as HTMLDivElement).parentNode as HTMLTableCellElement).parentNode as HTMLTableRowElement;
-                console.dir(row);
+                logger.debug("submitEditEventListener(): row", row)
                 
                 const { id, eventt } = prepareEditEventInput(row);
                 logger.debug({ id, eventt });
@@ -169,40 +170,98 @@ const Eventts = () => {
         return month;
     }
 
+    const viewEventBtnListener = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const currentTarget = e.currentTarget;
+        logger.debug("createEventListener(): e.currentTarget:", e);
+        
+        const modalRef = viewEventImparativeModalRef.current?.ref;
+
+        const modalNameDiv = modalRef?.current?.querySelector('#name') as HTMLDivElement;
+        const modalDescriptionDiv = modalRef?.current?.querySelector('#description') as HTMLDivElement;
+
+        const row: HTMLTableRowElement = (((currentTarget as HTMLButtonElement).parentNode as HTMLDivElement).parentNode as HTMLTableCellElement).parentNode as HTMLTableRowElement;
+        console.debug("createEventListener(): row:", row);
+        
+        const { id, eventt } = prepareViewEventInput(row);
+        logger.debug({ id, eventt });
+
+        const name = eventt.name;
+        const description = eventt.description
+
+        modalNameDiv.innerHTML = name + "";
+        modalDescriptionDiv.innerHTML = description + "";
+
+        viewEventImparativeModalRef.current?.openModal();
+    }
+
+    const closeViewEventtModal = (e: React.MouseEvent<HTMLDivElement>) => {
+        viewEventImparativeModalRef.current?.closeModal();
+    }
+
     return (<>
         <section className="mb-[10rem] [&_[type=text]]:bg-card [&_textarea]:bg-card text-text">
             <Modal ref={newEventImparativeModalRef}>
                 
-                    <div className="absolute right-[0.25rem] top-[0.25rem] hover:cursor-pointer //bg-light-card //text-text" onClick={closeNewEventtModal}>
-                        <svg className="w-[1.25rem] fill-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="">
-                            <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
-                        </svg>
-                    </div>
-                    <div className="bg-card //text-text px-[1rem] pt-[1.5rem] pb-[1rem] rounded-[0.5rem] w-[18rem]">
-                        <div className={`flex flex-col gap-[1rem] [&>div]:flex [&>div:not(:last-child)]:flex-col [&>div>[type=text]]:border-[0.0625rem] [&>div>[type=text]]:border-border focus:[&_[type=text]]:outline-none focus:[&_[type=text]]:shadow-[0rem_0rem_0.25rem_theme(colors.focus-outline)] [&_textarea]:border-[0.0625rem] [&_textarea]:border-border [&_textarea]:max-h-[3rem] [&_textarea]:min-h-[3rem] focus:[&_textarea]:outline-none focus:[&_textarea]:shadow-[0rem_0rem_0.25rem_theme(colors.focus-outline)] [&>div>label]:text-sm`}>
-                            <h3 className="text-center">Create event</h3>
-                            <div>
-                                <label htmlFor="name">Name</label>
-                                <input type="text" id="name"/>
-                            </div>
-                            <div>
-                                <label htmlFor="description">Description</label>
-                                <textarea id="description"/>
-                            </div>
-                            <div>
-                                <label htmlFor="company">Company</label>
-                                <input type="text" id="company" />
-                            </div>
-                            <div>
-                                <label htmlFor="color">Color</label>
-                                <input type="text" id="color" />
-                            </div>
-                            <div className="flex justify-evenly">
-                                <button type="submit" formMethod="dialog" onClick={cancelCreateEventtListener}>cancel</button>
-                                <button type="submit" formMethod="dialog" onClick={createEventtListener()}>submit</button>
-                            </div>
+                <div className="absolute right-[0.25rem] top-[0.25rem] hover:cursor-pointer //bg-light-card //text-text" onClick={closeNewEventtModal}>
+                    <svg className="w-[1.25rem] fill-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="">
+                        <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+                    </svg>
+                </div>
+                <div className="bg-card //text-text px-[1rem] pt-[1.5rem] pb-[1rem] rounded-[0.5rem] w-[18rem]">
+                    <div className={`flex flex-col gap-[1rem] [&>div]:flex [&>div:not(:last-child)]:flex-col [&>div>[type=text]]:border-[0.0625rem] [&>div>[type=text]]:border-border focus:[&_[type=text]]:outline-none focus:[&_[type=text]]:shadow-[0rem_0rem_0.25rem_theme(colors.focus-outline)] [&_textarea]:border-[0.0625rem] [&_textarea]:border-border [&_textarea]:max-h-[3rem] [&_textarea]:min-h-[3rem] focus:[&_textarea]:outline-none focus:[&_textarea]:shadow-[0rem_0rem_0.25rem_theme(colors.focus-outline)] [&>div>label]:text-sm`}>
+                        <h3 className="text-center">Create event</h3>
+                        <div>
+                            <label htmlFor="name">Name</label>
+                            <input type="text" id="name"/>
+                        </div>
+                        <div>
+                            <label htmlFor="description">Description</label>
+                            <textarea id="description"/>
+                        </div>
+                        <div>
+                            <label htmlFor="company">Company</label>
+                            <input type="text" id="company" />
+                        </div>
+                        <div>
+                            <label htmlFor="color">Color</label>
+                            <input type="text" id="color" />
+                        </div>
+                        <div className="flex justify-evenly">
+                            <button type="submit" formMethod="dialog" onClick={cancelCreateEventtListener}>cancel</button>
+                            <button type="submit" formMethod="dialog" onClick={createEventtListener()}>submit</button>
                         </div>
                     </div>
+                </div>
+                
+            </Modal>
+            <Modal ref={viewEventImparativeModalRef}>
+                
+                <div className="absolute right-[0.25rem] top-[0.25rem] hover:cursor-pointer //bg-light-card //text-text" onClick={closeViewEventtModal}>
+                    <svg className="w-[1.25rem] fill-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="">
+                        <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+                    </svg>
+                </div>
+                <div className="bg-card //text-text px-[1rem] pt-[1.5rem] pb-[1.875rem] rounded-[0.5rem] w-[18rem]">
+                    <div className={`flex flex-col gap-[1rem] [&>div]:flex [&>div]:flex-col [&>div>span]:text-sm`}>
+                        <h3 className="text-center">View event</h3>
+                        <div>
+                            <span>Name</span>
+                            <div id="name" className="min-h-[1.5rem]"/>
+                        </div>
+                        <div>
+                            <span>Description</span>
+                            <div id="description" className="min-h-[3rem] //max-h-[6rem]"/>
+                        </div>
+                        {/* <div>
+                            <label htmlFor="company">Company</label>
+                            <div id="company" />
+                        </div>
+                        <div>
+                            <label htmlFor="color">Color</label>
+                            <div id="color" />
+                        </div> */}
+                    </div>
+                </div>
                 
             </Modal>
 
@@ -227,6 +286,11 @@ const Eventts = () => {
                             events.length >= 1 && 
                             (events.map(
                                 (eventt: GetEventtType, i: number) => {
+
+                                    if (eventt.id === undefined || eventt.id === null) {
+                                        return;
+                                    }
+
                                     const date = eventt.date?.split('-');
                                     logger.debug("events.map(()=>{}): date:", date);
 
@@ -237,7 +301,6 @@ const Eventts = () => {
                                                 <td className="flex flex-col justify-center w-[10%]">
                                                     <div className="flex flex-col items-center">
                                                             {
-                                                                eventt.id !== null &&
                                                                 eventt.id === rowToEdit
                                                                 ?
                                                                     <>
@@ -258,7 +321,6 @@ const Eventts = () => {
                                                     <div className="flex flex-col items-start gap-[0.5rem] [&>span]:flex [&>span]:flex-col [&>span>span:not(:last-child)]:text-sm [&>span]:w-[100%]">
                                                         <>
                                                             {   
-                                                                eventt.id !== null &&
                                                                 eventt.id === rowToEdit
                                                                 ? 
                                                                     <>
@@ -283,7 +345,7 @@ const Eventts = () => {
                                                                 <>
                                                                     <span>
                                                                         {/* <span>name</span> */}
-                                                                        <span className="text-h5 min-h-[2.25rem]">{eventt.name}</span>
+                                                                        <span id="name" className="text-h5 min-h-[2.25rem]">{eventt.name}</span>
                                                                     </span>  
                                                                     <span>
                                                                         <span>Address</span>
@@ -291,7 +353,7 @@ const Eventts = () => {
                                                                     </span>
                                                                     <span>
                                                                         <span>Description</span>
-                                                                        <span className="span-p">{eventt.description}</span>
+                                                                        <span id="description" className="span-p">{eventt.description}</span>
                                                                     </span>                                                  
                                                                     <span>
                                                                         <span>Color</span>
@@ -305,8 +367,7 @@ const Eventts = () => {
                                                 <td className="flex flex-row justify-between w-[30%] min-w-fit //pr-[0.5rem]">
                                                     <div className="flex flex-col items-start gap-[0.5rem] [&>span]:flex [&>span]:flex-col [&>span>span:not(:last-child)]:text-sm [&>span]:w-[100%] w-[100%]">
 
-                                                        {       
-                                                            eventt.id !== null &&
+                                                        {   
                                                             eventt.id === rowToEdit
                                                             ?
                                                                  <>
@@ -340,7 +401,6 @@ const Eventts = () => {
                                                                 </>    }
                                                     </div>                                                    
                                                     {
-                                                        eventt.id !== null &&
                                                         eventt.id === rowToEdit
                                                         ?
                                                             <div className="pl-[1rem] flex flex-col [&]:justify-center [&]:items-center h-[100%]">
@@ -348,7 +408,13 @@ const Eventts = () => {
                                                                 <button className="//w-[100%] h-fit" onClick={cancelEditEventtListener()}>cancel</button>
                                                             </div>                                                                
                                                         :
-                                                            <div className="pl-[1rem] flex flex-col [&]:justify-center [&]:items-center h-[100%]">                                                            
+                                                            <div className="pl-[1rem] flex flex-col [&]:justify-center [&]:items-center h-[100%]">
+                                                                <button className="view-btn //w-[100%] //h-fit h-[1.5rem] //mb-[1.5rem]" onClick={viewEventBtnListener}>
+                                                                    {/* view */}
+                                                                    <svg className="w-[1.25rem] fill-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" >
+                                                                        <path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z"/>
+                                                                    </svg>
+                                                                </button>
                                                                 <button className="edit-btn //w-[100%] //h-fit h-[1.5rem] //mb-[1.5rem]" onClick={editEventtListener()}>
                                                                     <svg className="w-[1.25rem] fill-icon" xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" fill="">
                                                                         {/* edit */}

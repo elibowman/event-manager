@@ -1,5 +1,5 @@
 import { logger } from "./console-logger";
-import { CreateEventtType } from "./create-event";
+import { EditEventtType } from "./edit-event";
 
 
 export default function prepareEditEventInput(node: HTMLElement | undefined) {
@@ -14,7 +14,7 @@ export default function prepareEditEventInput(node: HTMLElement | undefined) {
     const company = (node?.querySelector('#company') as HTMLInputElement).value;
     const color = (node?.querySelector('#color') as HTMLInputElement).value;
 
-    const eventt: CreateEventtType = {
+    const eventt: EditEventtType = {
         name,
         description,
         company,
