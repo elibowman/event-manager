@@ -284,7 +284,18 @@ const Eventts = () => {
                     <tbody className="flex flex-col gap-[1rem]">
                         {
                             events.length >= 1 && 
-                            (events.map(
+                            (events.sort((eventt1, eventt2) => {
+                                if (eventt1.company == null || eventt2.company == null) {
+                                    return 0;
+                                }
+                                if (eventt1.company > eventt2.company) {
+                                    return 1;
+                                }
+                                if (eventt1.company < eventt2.company) {
+                                    return -1
+                                }
+                                return 0;
+                            }).map(
                                 (eventt: GetEventtType, i: number) => {
 
                                     if (eventt.id === undefined || eventt.id === null) {
