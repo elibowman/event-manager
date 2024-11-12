@@ -5,18 +5,18 @@ import ensureError from './ensure-error';
 
 export type GetEventtType = {
     id: number,
-    color: string | null,
-    isActive: true | false | null,
-    name: string | null,
-    date: string | null,
-    time: string | null,
-    company: string | null,
-    email: string | null,
-    phone: string | null,
-    address: string | null,
-    description: string | null,
-    image: string | null,
-    createdOn: string | null
+    color?: string | null,
+    isActive?: true | false | null,
+    name?: string | null,
+    date?: string | null,
+    time?: string | null,
+    company?: string | null,
+    email?: string | null,
+    phone?: string | null,
+    address?: string | null,
+    description?: string | null,
+    image?: string | null,
+    createdOn?: string | null
 }
 
 export default async function getEventts(): Promise<GetEventtType[] | null> {
@@ -33,7 +33,7 @@ export default async function getEventts(): Promise<GetEventtType[] | null> {
         logger.debug(`getEventts(): responseJson:`, responseJson);
 
         if(
-            !(Array.isArray(responseJson) && (responseJson as []).map((_eventt, i) => ('id' in responseJson[i]) && typeof responseJson[i].id === 'number') && responseJson as GetEventtType[])
+            !(Array.isArray(responseJson) && (responseJson as []).map((eventt: GetEventtType, _i) => ('id' in eventt) && typeof eventt.id === 'number'))
         ) {
             throw new InvalidResponseError();
         }
@@ -44,6 +44,6 @@ export default async function getEventts(): Promise<GetEventtType[] | null> {
         const error = ensureError(err);
 
         logger.error(error.message, error);
-        throw new Error('Failed to get events', err)
+        throw new Error('Error: failed to get events', err)
     }
 }

@@ -42,7 +42,7 @@ const createEventt = async (eventt: CreateEventtType) => {
         const error = ensureError(err);
 
         logger.error(error.message, error);
-        throw new Error('Failed to create event', err);
+        throw new Error('Error: failed to create event', err);
     }
 }
 

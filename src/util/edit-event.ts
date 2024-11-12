@@ -42,7 +42,7 @@ const editEventt = async (id: number, eventt: EditEventtType): Promise<any> => {
         const error = ensureError(err);
 
         logger.error(error.message, error);
-        throw new Error('Failed to edit event', err);
+        throw new Error('Error: failed to edit event', err);
     }
 }
 

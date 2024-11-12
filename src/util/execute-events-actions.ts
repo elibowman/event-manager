@@ -54,6 +54,6 @@ export default async function executeEventtsActions({ params, request }: {params
         const error = ensureError(err);
 
         logger.error(error.message, error);
-        throw new Error('Failed to get events', err);
+        throw new Error('Error: failed to get events', err);
     }
 }

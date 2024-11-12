@@ -23,7 +23,7 @@ const deleteEventt = async (id: number) => {
         const error = ensureError(err);
 
         logger.error(error.message, error);
-        throw new Error('Failed to delete event', err)
+        throw new Error('Error: failed to delete event', err)
     }
 }
 

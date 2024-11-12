@@ -199,16 +199,16 @@ const Eventts = () => {
     }
 
     return (<>
-        <section className="mb-[10rem] [&_[type=text]]:bg-card [&_textarea]:bg-card text-text">
+        <section className="mb-[10rem] [&_[type=text]]:bg-card [&_textarea]:bg-card text-text-2">
             <Modal ref={newEventImparativeModalRef}>
                 
-                <div className="absolute right-[0.25rem] top-[0.25rem] hover:cursor-pointer //bg-light-card //text-text" onClick={closeNewEventtModal}>
-                    <svg className="w-[1.25rem] fill-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="">
+                <div className="absolute right-[0.25rem] top-[0.25rem] hover:cursor-pointer //bg-light-card //text-text-2" onClick={closeNewEventtModal}>
+                    <svg className="w-[1.25rem] fill-icon-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="">
                         <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
                     </svg>
                 </div>
-                <div className="bg-card //text-text px-[1rem] pt-[1.5rem] pb-[1rem] rounded-[0.5rem] w-[18rem]">
-                    <div className={`flex flex-col gap-[1rem] [&>div]:flex [&>div:not(:last-child)]:flex-col [&>div>[type=text]]:border-[0.0625rem] [&>div>[type=text]]:border-border focus:[&_[type=text]]:outline-none focus:[&_[type=text]]:shadow-[0rem_0rem_0.25rem_theme(colors.focus-outline)] [&_textarea]:border-[0.0625rem] [&_textarea]:border-border [&_textarea]:max-h-[3rem] [&_textarea]:min-h-[3rem] focus:[&_textarea]:outline-none focus:[&_textarea]:shadow-[0rem_0rem_0.25rem_theme(colors.focus-outline)] [&>div>label]:text-sm`}>
+                <div className="bg-card-2 //border-[0.0625rem] //border-border-3 text-text-3 px-[1rem] pt-[1.5rem] pb-[1rem] rounded-[0.5rem] w-[18rem] [&_[type=text]]:!bg-background-3 [&_textarea]:!bg-background-3">
+                    <div className={`flex flex-col gap-[1rem] [&>div]:flex [&>div:not(:last-child)]:flex-col [&>div>[type=text]]:border-[0.0625rem] //focus:[&>div>[type=text]]:border-[0rem] [&>div>[type=text]]:border-border-1 focus:[&_[type=text]]:outline-none focus:[&_[type=text]]:shadow-[0rem_0rem_0.25rem_theme(colors.focus-outline)] [&_textarea]:border-[0.0625rem] //focus:[&_textarea]:border-[0rem] [&_textarea]:border-border-1 [&_textarea]:max-h-[3rem] [&_textarea]:min-h-[3rem] focus:[&_textarea]:outline-none focus:[&_textarea]:shadow-[0rem_0rem_0.25rem_theme(colors.focus-outline)] [&>div>label]:text-sm`}>
                         <h3 className="text-center">Create event</h3>
                         <div>
                             <label htmlFor="name">Name</label>
@@ -236,12 +236,12 @@ const Eventts = () => {
             </Modal>
             <Modal ref={viewEventImparativeModalRef}>
                 
-                <div className="absolute right-[0.25rem] top-[0.25rem] hover:cursor-pointer //bg-light-card //text-text" onClick={closeViewEventtModal}>
-                    <svg className="w-[1.25rem] fill-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="">
+                <div className="absolute right-[0.25rem] top-[0.25rem] hover:cursor-pointer //bg-card-2 //text-text-2" onClick={closeViewEventtModal}>
+                    <svg className="w-[1.25rem] fill-icon-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="">
                         <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
                     </svg>
                 </div>
-                <div className="bg-card //text-text px-[1rem] pt-[1.5rem] pb-[1.875rem] rounded-[0.5rem] w-[18rem]">
+                <div className="bg-card-3 //border-[0.0625rem] border-border-3 text-text-3 px-[1rem] pt-[1.5rem] pb-[1.875rem] rounded-[0.5rem] w-[18rem]">
                     <div className={`flex flex-col gap-[1rem] [&>div]:flex [&>div]:flex-col [&>div>span]:text-sm`}>
                         <h3 className="text-center">View event</h3>
                         <div>
@@ -267,9 +267,9 @@ const Eventts = () => {
 
             <div className="min-w-fit">
                 <div className="flex justify-center relative mt-[5rem]">
-                    <h2 className="text-center text-h3 //pb-[1.5rem] [&]:text-light-text">Events</h2>
+                    <h2 className="text-center text-h3 //pb-[1.5rem] [&]:text-text-1">Events</h2>
                 </div>
-                <div className="flex justify-end w-[100%] fill-light-icon mb-[0.5rem] ">
+                <div className="flex justify-end w-[100%] fill-icon-1 mb-[0.5rem] ">
                     <span>
                         <svg className="w-[1.5rem] hover:cursor-pointer" xmlns="http://www.w3.org/2000/svg" onClick={(_e) => {newEventImparativeModalRef.current?.openModal()}}viewBox="0 -960 960 960" fill="">
                             <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z"/>
@@ -308,7 +308,7 @@ const Eventts = () => {
                                     const month = getMonthFromDateArray(date);
 
                                     return  (                        
-                                        <tr key={eventt.id} data-key={eventt.id} className="bg-card //border-[0.0625rem] border-border rounded-[0.5rem] flex flex-row p-[1rem] [&>td:not(:last-child)]:border-r-[0.0625rem] [&>td:not(:last-child)]:border-border [&>td]:py-[1rem] [&>td:not(:first-child)]:pl-[1rem] [&>td:not(:last-child)]:pr-[1rem] [&_.span-p]:min-h-[1.5rem] [&_[type=text]]:border-[0.0625rem] [&_[type=text]]:border-border focus:[&_[type=text]]:outline-none focus:[&_[type=text]]:shadow-[0rem_0rem_0.25rem_theme(colors.focus-outline)] //[&_td:not(:first-child)_[type=text]]:pl-[0.5rem] [&_td:not(:first-child)_[type=text]]:px-[0.5rem] //focus:[&_[type=text]]:outline-border [&_textarea]:border-[0.0625rem] [&_textarea]:border-border //[&_textarea]:max-h-fit focus:[&_textarea]:outline-none focus:[&_textarea]:shadow-[0rem_0rem_0.25rem_theme(colors.focus-outline)]">
+                                        <tr key={eventt.id} data-key={eventt.id} className="bg-card border-[0.0625rem] border-border-1 rounded-[0.5rem] flex flex-row p-[1rem] [&>td:not(:last-child)]:border-r-[0.0625rem] [&>td:not(:last-child)]:border-border-1 [&>td]:py-[1rem] [&>td:not(:first-child)]:pl-[1rem] [&>td:not(:last-child)]:pr-[1rem] [&_.span-p]:min-h-[1.5rem] [&_[type=text]]:border-[0.0625rem] //focus:[&_[type=text]]:border-[0rem] [&_[type=text]]:border-border-1 focus:[&_[type=text]]:outline-none focus:[&_[type=text]]:shadow-[0rem_0rem_0.25rem_theme(colors.focus-outline)] //[&_td:not(:first-child)_[type=text]]:pl-[0.5rem] [&_td:not(:first-child)_[type=text]]:px-[0.5rem] //focus:[&_[type=text]]:outline-border [&_textarea]:border-[0.0625rem] //focus:[&_textarea]:border-[0rem] [&_textarea]:border-border-1 //[&_textarea]:max-h-fit focus:[&_textarea]:outline-none focus:[&_textarea]:shadow-[0rem_0rem_0.25rem_theme(colors.focus-outline)]">
                                                 <td className="flex flex-col justify-center w-[10%]">
                                                     <div className="flex flex-col items-center">
                                                             {
@@ -419,15 +419,15 @@ const Eventts = () => {
                                                                 <button className="//w-[100%] h-fit" onClick={cancelEditEventtListener()}>cancel</button>
                                                             </div>                                                                
                                                         :
-                                                            <div className="pl-[1rem] flex flex-col [&]:justify-center [&]:items-center h-[100%]">
+                                                            <div className="pl-[1rem] flex flex-col [&]:justify-start [&]:items-center h-[100%]">
                                                                 <button className="view-btn //w-[100%] //h-fit h-[1.5rem] //mb-[1.5rem]" onClick={viewEventBtnListener}>
                                                                     {/* view */}
-                                                                    <svg className="w-[1.25rem] fill-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" >
+                                                                    <svg className="w-[1.25rem] fill-icon-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" >
                                                                         <path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Zm0-300Zm0 220q113 0 207.5-59.5T832-500q-50-101-144.5-160.5T480-720q-113 0-207.5 59.5T128-500q50 101 144.5 160.5T480-280Z"/>
                                                                     </svg>
                                                                 </button>
                                                                 <button className="edit-btn //w-[100%] //h-fit h-[1.5rem] //mb-[1.5rem]" onClick={editEventtListener()}>
-                                                                    <svg className="w-[1.25rem] fill-icon" xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" fill="">
+                                                                    <svg className="w-[1.25rem] fill-icon-2" xmlns="http://www.w3.org/2000/svg"  viewBox="0 -960 960 960" fill="">
                                                                         {/* edit */}
                                                                         <path d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z"/>
                                                                     </svg>
@@ -437,7 +437,7 @@ const Eventts = () => {
                                                                     ?
                                                                         <button className="//w-[100%] //h-fit h-[1.5rem]" onClick={deleteBtnEventtListener} >
                                                                             {/* delete */}
-                                                                            <svg className="w-[1.25rem] fill-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="">
+                                                                            <svg className="w-[1.25rem] fill-icon-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" fill="">
                                                                                 <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/>
                                                                             </svg>
                                                                         </button>
